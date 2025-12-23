@@ -6,10 +6,14 @@ class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
 
   final RxBool _obscurePassword = true.obs;
+  final RxBool _obscureConfirmPassword = true.obs;
+
   final _formKey = GlobalKey<FormState>();
   final _userName = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _confirmPassword = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +110,20 @@ class SignUpPage extends StatelessWidget {
                         const SizedBox(height: 16),
 
                         //Confirm Password Field
+                        // _buildTextField(
+                        //   hint: "Confirm Password",
+                        //   icon: Icons.lock_outline,
+                        //   controllerName: _password,
+                        //   isPassword: true,
+                        // ),
                         _buildTextField(
                           hint: "Confirm Password",
                           icon: Icons.lock_outline,
-                          controllerName: _password,
+                          controllerName: _confirmPassword,
                           isPassword: true,
+                          isConfirmPassword: true,
                         ),
+
 
 
 
@@ -127,8 +139,15 @@ class SignUpPage extends StatelessWidget {
                                 Get.snackbar(
                                   "Success",
                                   "User registered Successfully",
-                                  snackPosition: SnackPosition.BOTTOM,
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.white
                                 );
+
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder:(context)=>LoginPage())
+                                  );
+
                               }
                             },
 
@@ -141,7 +160,7 @@ class SignUpPage extends StatelessWidget {
                               elevation: 5,
                             ),
                             child: const Text(
-                              "LOGIN",
+                              "SignUp",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -193,29 +212,32 @@ class SignUpPage extends StatelessWidget {
     required IconData icon,
     required TextEditingController controllerName,
     bool isPassword = false,
+    bool isConfirmPassword = false,
   }) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.15),
         borderRadius: BorderRadius.circular(14),
       ),
-
       child: isPassword
           ? Obx(() => TextFormField(
         controller: controllerName,
-        obscureText: _obscurePassword.value,
+        obscureText: isConfirmPassword
+            ? _obscureConfirmPassword.value
+            : _obscurePassword.value,
         style: const TextStyle(color: Colors.white),
-
         validator: (value) {
           if (value == null || value.isEmpty) {
             return '$hint is required';
+          }
+          if (isConfirmPassword && value != _password.text) {
+            return 'Passwords do not match';
           }
           if (value.length < 6) {
             return 'Password must be at least 6 characters';
           }
           return null;
         },
-
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hint,
@@ -223,45 +245,51 @@ class SignUpPage extends StatelessWidget {
           prefixIcon: Icon(icon, color: Colors.white),
           suffixIcon: IconButton(
             icon: Icon(
-              _obscurePassword.value
+              (isConfirmPassword
+                  ? _obscureConfirmPassword.value
+                  : _obscurePassword.value)
                   ? Icons.visibility_off
                   : Icons.visibility,
               color: Colors.white,
             ),
-            onPressed: () =>
-            _obscurePassword.value = !_obscurePassword.value,
+            onPressed: () {
+              if (isConfirmPassword) {
+                _obscureConfirmPassword.value =
+                !_obscureConfirmPassword.value;
+              } else {
+                _obscurePassword.value = !_obscurePassword.value;
+              }
+            },
           ),
           contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16
+            horizontal: 16,
+            vertical: 16,
           ),
         ),
       ))
           : TextFormField(
         controller: controllerName,
         style: const TextStyle(color: Colors.white),
-
         validator: (value) {
           if (value == null || value.isEmpty) {
-            return '*   $hint is required';
+            return '$hint is required';
           }
-          if (!GetUtils.isEmail(value)) {
+          if (hint == "Email" && !GetUtils.isEmail(value)) {
             return 'Enter a valid email';
           }
           return null;
         },
-
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hint,
           hintStyle: const TextStyle(color: Colors.white70),
           prefixIcon: Icon(icon, color: Colors.white),
-          contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 16
-          ),
+          contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
       ),
     );
   }
+
+
 }

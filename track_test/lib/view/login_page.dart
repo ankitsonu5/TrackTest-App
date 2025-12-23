@@ -119,7 +119,8 @@ class LoginPage extends StatelessWidget {
                                 Get.snackbar(
                                   "Success",
                                   "Login Successful",
-                                  snackPosition: SnackPosition.BOTTOM,
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.white
                                 );
                               }
                             },
