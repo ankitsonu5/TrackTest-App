@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:track_test/view/signup_page.dart';
 
+import 'dashboard_page.dart';
+
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
@@ -20,8 +22,10 @@ class LoginPage extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color(0xff6A11CB),
-              Color(0xff2575FC),
+              // Color(0xff6A11CB),
+              // Color(0xff2575FC),
+              Color(0xffc74a0f),
+              Color(0xffecccbd),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -116,13 +120,13 @@ class LoginPage extends StatelessWidget {
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                Get.snackbar(
-                                  "Success",
-                                  "Login Successful",
-                                  snackPosition: SnackPosition.TOP,
-                                  backgroundColor: Colors.white
-                                );
-                              }
+                                // Get.snackbar(
+                                //   "Success",
+                                //   "Login Successful",
+                                //   snackPosition: SnackPosition.TOP,
+                                //   backgroundColor: Colors.white
+                                // );
+                                Get.offAll(() => DashboardPage());                              }
                             },
 
                             style: ElevatedButton.styleFrom(
