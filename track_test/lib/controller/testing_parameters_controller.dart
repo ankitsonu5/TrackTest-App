@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../view/campaign_summary_page.dart';
+
 class TestingParametersController extends GetxController {
   // Dropdown values
   RxString targetAudience = "India".obs;

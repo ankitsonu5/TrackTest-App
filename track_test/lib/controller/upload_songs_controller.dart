@@ -54,6 +54,7 @@
 
 import 'dart:async';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class UploadSongsController extends GetxController {
@@ -97,5 +98,30 @@ class UploadSongsController extends GetxController {
         Get.snackbar("Success", "Song uploaded successfully 🎵");
       }
     });
+  }
+
+  bool validateFields() {
+    if (selectedAudio.value == null) {
+
+      Get.snackbar("Error", "Please select an audio file");
+      return false;
+    }
+
+    if (songTitle.value.trim().isEmpty) {
+      Get.snackbar("Error", "Song title is required");
+      return false;
+    }
+
+    if (description.value.trim().isEmpty) {
+      Get.snackbar("Error", "Description is required");
+      return false;
+    }
+
+    // if (genre.value.trim().isEmpty) {
+    //   Get.snackbar("Error", "Genre is required");
+    //   return false;
+    // }
+
+    return true;
   }
 }

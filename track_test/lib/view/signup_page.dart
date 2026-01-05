@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:track_test/view/login_Page.dart';
 
+import '../db/user_repository.dart';
+import '../model/user_model.dart';
+
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});
 
@@ -136,22 +139,37 @@ class SignUpPage extends StatelessWidget {
                           width: double.infinity,
                           height: 52,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                Get.snackbar(
-                                  "Success",
-                                  "User registered Successfully",
-                                  snackPosition: SnackPosition.TOP,
-                                  backgroundColor: Colors.white
-                                );
+                                try {
+                                  UserRepository repo = UserRepository();
 
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder:(context)=>LoginPage())
+                                  await repo.registerUser(
+                                    UserModel(
+                                      name: _userName.text.trim(),
+                                      email: _email.text.trim(),
+                                      password: _password.text.trim(),
+                                    ),
                                   );
 
+                                  Get.snackbar(
+                                    "Success",
+                                    "Account created successfully",
+                                    snackPosition: SnackPosition.TOP,
+                                  );
+
+                                  Get.offAll(() => LoginPage());
+                                } catch (e) {
+                                  Get.snackbar(
+                                    "Signup Failed",
+                                    "Email already exists",
+                                    snackPosition: SnackPosition.TOP,
+                                  );
+                                }
                               }
                             },
+
+
 
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,

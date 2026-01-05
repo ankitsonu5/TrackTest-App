@@ -97,5 +97,24 @@ class UploadSong2Controller extends GetxController {
       }
     });
   }
+
+  bool validateFields() {
+    if (selectedAudio2.value == null) {
+      Get.snackbar("Error", "Please select an audio file");
+      return false;
+    }
+
+    if (songTitle2.value.trim().isEmpty) {
+      Get.snackbar("Error", "Song title is required");
+      return false;
+    }
+
+    if (description2.value.trim().isEmpty) {
+      Get.snackbar("Error", "Description is required");
+      return false;
+    }
+
+    return true;
+  }
 }
 

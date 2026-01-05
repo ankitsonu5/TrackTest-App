@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controller/testing_parameters_controller.dart';
+import 'campaign_summary_page.dart';
 
 
 class SetTestingParametersPage extends StatelessWidget {
@@ -19,16 +20,16 @@ class SetTestingParametersPage extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xffe7dbf4),
-              Color(0xffddbfb1),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
+        // decoration: const BoxDecoration(
+        //   gradient: LinearGradient(
+        //     colors: [
+        //       Color(0xffe7dbf4),
+        //       Color(0xffddbfb1),
+        //     ],
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //   ),
+        // ),
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -152,9 +153,17 @@ class SetTestingParametersPage extends StatelessWidget {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: controller.launchCampaign,
+                  onPressed:() {
+                    Get.snackbar(
+                        "Campaign Launched",
+                        "Your Song Testing Campaign has been Launched Successfully"
+                    );
+                    Get.to(() => const CampaignLaunchedPage());
+                  },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    // backgroundColor: Colors.black,
+                    backgroundColor: Color(0xffc74a0f),
+
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),

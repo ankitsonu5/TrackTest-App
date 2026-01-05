@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:track_test/view/signup_page.dart';
 
+import '../controller/auth_controller.dart';
 import 'dashboard_page.dart';
 
 class LoginPage extends StatelessWidget {
+  final LoginController loginController = Get.put(LoginController());
+
+
   LoginPage({super.key});
 
   final RxBool _obscurePassword = true.obs;
@@ -118,16 +122,25 @@ class LoginPage extends StatelessWidget {
                           width: double.infinity,
                           height: 52,
                           child: ElevatedButton(
+                            // onPressed: () {
+                            //   if (_formKey.currentState!.validate()) {
+                            //     // Get.snackbar(
+                            //     //   "Success",
+                            //     //   "Login Successful",
+                            //     //   snackPosition: SnackPosition.TOP,
+                            //     //   backgroundColor: Colors.white
+                            //     // );
+                            //     Get.offAll(() => DashboardPage());                              }
+                            // },
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // Get.snackbar(
-                                //   "Success",
-                                //   "Login Successful",
-                                //   snackPosition: SnackPosition.TOP,
-                                //   backgroundColor: Colors.white
-                                // );
-                                Get.offAll(() => DashboardPage());                              }
+                                loginController.login(
+                                  _email.text.trim(),
+                                  _password.text.trim(),
+                                );
+                              }
                             },
+
 
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.white,
